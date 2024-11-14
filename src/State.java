@@ -1,18 +1,24 @@
 import java.util.ArrayList;
-@SuppressWarnings("unused")
 
 public class State {
-    State() {
-    }
-
-    State(State another) {
-        this.levelBoard = another.levelBoard;
-    }
-
     public static final String RESET = "\033[0m";
     public static String COLOR = "";
     ArrayList<ArrayList<Square>> levelBoard;
     int rows, columns;
+
+    State() {
+    }
+
+    State(State another) {
+        this.levelBoard = new ArrayList<>();
+        for (ArrayList<Square> row : another.levelBoard) {
+            ArrayList<Square> newRow = new ArrayList<>();
+            for (Square square : row) {
+                newRow.add(new Square(square)); // Deep copy each square
+            }
+            this.levelBoard.add(newRow);
+        }
+    }
 
     ArrayList<ArrayList<Square>> board1 = new ArrayList<>();
     {
@@ -250,7 +256,8 @@ public class State {
     }
 
     // moving
-    State go(String key, State currentState) {
+    State go(String key) {
+        State currentState = new State(this);
         switch (key) {
             case "w" -> {
                 for (int i = 0; i < rows; i++) {
@@ -305,8 +312,12 @@ public class State {
                         if (currentState.levelBoard.get(i).get(j).cube == true) {
                             if (j > 0) {
                                 if (currentState.levelBoard.get(i).get(j - 1).cube != true
-                                        && currentState.levelBoard.get(i).get(j - 1).block != true)
+                                        && currentState.levelBoard.get(i).get(j - 1).block != true) {
                                     currentState.levelBoard = goLeft(currentState.levelBoard, i, j);
+                                }
+                                if (currentState.levelBoard.get(i).get(j + 1).cube == true) {
+                                    j++;
+                                }
                             }
                         }
                     }
@@ -652,33 +663,68 @@ public class State {
         return counter == 0;
     }
 
+    // check if you are a loser
+    boolean loseState(ArrayList<ArrayList<Square>> levelBoard) {
+        int goales = 0;
+        int cubes = 0;
+        for (ArrayList<Square> row : levelBoard) {
+            for (Square square : row) {
+                if (square.goal == true) {
+                    goales++;
+                }
+                if (square.cube == true) {
+                    cubes++;
+                }
+            }
+        }
+        return goales != cubes;
+    }
+
     // all of the possible coming moves
-    ArrayList<State> nextStates(State currentState) {
+    ArrayList<State> nextStates(int level) {
         ArrayList<State> possibleMoves = new ArrayList<>();
-        State upState = new State(currentState);
-        if (!sameState(go("w", upState), currentState))
-            possibleMoves.add(upState);
-        State downState = new State(currentState);
-        if (!sameState(go("s", downState), currentState))
-            possibleMoves.add(downState);
-        State rightState = new State(currentState);
-        if (!sameState(go("d", rightState), currentState))
-            possibleMoves.add(rightState);
-        State leftState = new State(currentState);
-        if (!sameState(go("a", leftState), currentState))
-            possibleMoves.add(leftState);
+
+        State upState = new State(this);
+        upState.dimension(level);
+        System.out.println("up");
+        State up = upState.go("w");
+        if (loseState(up.levelBoard) != true && this.sameState(up) != true)
+            possibleMoves.add(up);
+
+        State downState = new State(this);
+        downState.dimension(level);
+        System.out.println("down");
+        State down = downState.go("s");
+        if (loseState(down.levelBoard) != true && this.sameState(down) != true)
+            possibleMoves.add(down);
+
+        State leftState = new State(this);
+        leftState.dimension(level);
+        System.out.println("left");
+        State left = leftState.go("a");
+        if (loseState(left.levelBoard) != true && this.sameState(left) != true)
+            possibleMoves.add(left);
+
+        State rightState = new State(this);
+        rightState.dimension(level);
+        System.out.println("right");
+        State right = rightState.go("d");
+        if (loseState(right.levelBoard) != true && this.sameState(right) != true)
+            possibleMoves.add(right);
+
+        System.out.println(possibleMoves);
         return possibleMoves;
     }
-    
-    // for (State state1 : possibleMoves) {
-    // for (State state2 : possibleMoves) {
-    // if (sameState(state1, state2))
-    // possibleMoves.remove(state2);
-    // }
-    // }
 
     // check if two states are the same
-    boolean sameState(State first, State second) {
-        return first.equals(second);
+    boolean sameState(State state) {
+        return (this == state);
+        // return first.equals(second);
     }
 }
+// for (State state1 : possibleMoves) {
+// for (State state2 : possibleMoves) {
+// if (sameState(state1, state2))
+// possibleMoves.remove(state2);
+// }
+// }

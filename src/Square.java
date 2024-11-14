@@ -13,6 +13,18 @@ public class Square {
       public Square() {
       }
 
+      public Square(Square copy) {
+            this.block = copy.block;
+            this.trap = copy.trap;
+            this.out = copy.out;
+            this.road = copy.road;
+            this.goal = copy.goal;
+            this.cube = copy.cube;
+            this.symbol = copy.symbol;
+            this.cubeColor = copy.cubeColor;
+            this.goalColor = copy.goalColor;
+      }
+
       void setSymbol(String symbol) {
             this.symbol = symbol;
       }

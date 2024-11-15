@@ -7,35 +7,34 @@ public class Playing {
       Playing() {
       }
 
-      ArrayList<State> steps = new ArrayList<>();
-      State initState = new State();
-
       void startPlaying(int level) {
+            ArrayList<State> steps = new ArrayList<>();
+            State initState = new State();
             initState.level(level);
             initState.dimension(level);
-            initState.printBoard(initState.levelBoard);
-            // initState.nextStates(level);
+            initState.printBoard();
             Scanner scanner = new Scanner(System.in);
             String key = scanner.nextLine();
             steps.add(initState.go(key));
-            while (steps.get(steps.size() - 1).winState(steps.get(steps.size() - 1).levelBoard) != true) {
+            steps.get(steps.size() - 1).printBoard();
+            while (steps.get(steps.size() - 1).winState() != true && steps.get(steps.size() - 1).loseState() != true) {
                   key = scanner.nextLine();
-                  steps.get(steps.size() - 1).dimension(level);
-                  steps.add(steps.get(steps.size() - 1).go(key));
+                  if ("h".equals(key))
+                        steps.get(steps.size() - 1).nextStates(level);
+                  else {
+                        steps.add(steps.get(steps.size() - 1).go(key));
+                        steps.get(steps.size() - 1).printBoard();
+                  }
             }
             scanner.close();
       }
-      // for (State step : steps) {
-      // System.out.println("step :");
-      // step.printBoard(step.levelBoard);
-      // }
 
       public static void main(String[] args) {
             Playing play = new Playing();
-            // System.out.println("Choose a level from 1 to 3");
-            // Scanner scanner = new Scanner(System.in);
-            // int level = scanner.nextInt();
-            play.startPlaying(1);
-            // scanner.close();
+            System.out.println("Choose a level from 1 to 3");
+            Scanner scanner = new Scanner(System.in);
+            int level = scanner.nextInt();
+            play.startPlaying(level);
+            scanner.close();
       }
 }

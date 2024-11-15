@@ -29,12 +29,37 @@ public class Playing {
             scanner.close();
       }
 
+      void bfsSolving(int level) {
+            State initState = new State();
+            initState.level(level);
+            initState.dimension(level);
+            Graph graph = new Graph();
+            graph.bfs(level, initState);
+      }
+
+      void dfsSolving(int level) {
+            State initState = new State();
+            initState.level(level);
+            initState.dimension(level);
+            Graph graph = new Graph();
+            graph.dfs(level, initState);
+      }
+
       public static void main(String[] args) {
             Playing play = new Playing();
+            Scanner input1 = new Scanner(System.in);
             System.out.println("Choose a level from 1 to 3");
-            Scanner scanner = new Scanner(System.in);
-            int level = scanner.nextInt();
-            play.startPlaying(level);
-            scanner.close();
+            int level = input1.nextInt();
+            Scanner input2 = new Scanner(System.in);
+            System.out.println("Do you want to play (p), or get the solution by BFS(b) or DFS(d)");
+            String game = input2.nextLine();
+            if ("p".equals(game))
+                  play.startPlaying(level);
+            if ("b".equals(game))
+                  play.bfsSolving(level);
+            if ("d".equals(game))
+                  play.dfsSolving(level);
+            input1.close();
+            input2.close();
       }
 }

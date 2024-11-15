@@ -255,7 +255,7 @@ public class State {
         }
     }
 
-    // moving
+    // moving 
     State go(String key) {
         State currentState = new State(this);
         switch (key) {
@@ -273,10 +273,6 @@ public class State {
                         }
                     }
                 }
-                if (currentState.winState())
-                    System.out.println("\033[1;36m" + "________Winner________" + RESET);
-                if (currentState.loseState())
-                    System.out.println("\033[1;36m" + "________GAME OVER________" + RESET);
             }
             case "s" -> {
                 for (int i = 0; i < rows - 1; i++) {
@@ -288,10 +284,6 @@ public class State {
                         }
                     }
                 }
-                if (currentState.winState())
-                    System.out.println("\033[1;36m" + "________Winner________" + RESET);
-                if (currentState.loseState())
-                    System.out.println("\033[1;36m" + "________GAME OVER________" + RESET);
             }
             case "d" -> {
                 for (int i = 0; i < rows; i++) {
@@ -303,10 +295,6 @@ public class State {
                         }
                     }
                 }
-                if (currentState.winState())
-                    System.out.println("\033[1;36m" + "________Winner________" + RESET);
-                if (currentState.loseState())
-                    System.out.println("\033[1;36m" + "________GAME OVER________" + RESET);
             }
             case "a" -> {
                 for (int i = 0; i < rows; i++) {
@@ -322,10 +310,6 @@ public class State {
                         }
                     }
                 }
-                if (currentState.winState())
-                    System.out.println("\033[1;36m" + "________Winner________" + RESET);
-                if (currentState.loseState())
-                    System.out.println("\033[1;36m" + "________GAME OVER________" + RESET);
             }
             default -> {
                 System.out.println("you can only use (w, a, s, d)");
@@ -671,7 +655,7 @@ public class State {
         }
         return goales != cubes;
     }
-    
+
     // check if two states are the same
     boolean sameState(State first, State second) {
         for (int i = 0; i < first.levelBoard.size(); i++) {
@@ -703,39 +687,41 @@ public class State {
     ArrayList<State> nextStates(int level) {
         ArrayList<State> possibleMoves = new ArrayList<>();
 
-        System.out.println("\033[1;36m" + "------------------------------------------" + RESET);
+        // System.out.println("\033[1;36m" +
+        // "------------------------------------------" + RESET);
         State upState = new State(this);
         State up = upState.go("w");
         if (!up.loseState() && !sameState(up, upState)) {
-            System.out.print("\033[1;36m" + "up" + RESET);
-            up.printBoard();
+            // System.out.print("\033[1;36m" + "up" + RESET);
+            // up.printBoard();
             possibleMoves.add(up);
         }
 
         State downState = new State(this);
         State down = downState.go("s");
         if (!down.loseState() && !sameState(down, downState)) {
-            System.out.print("\033[1;36m" + "down" + RESET);
-            down.printBoard();
+            // System.out.print("\033[1;36m" + "down" + RESET);
+            // down.printBoard();
             possibleMoves.add(down);
         }
 
         State leftState = new State(this);
         State left = leftState.go("a");
         if (!left.loseState() && !sameState(left, leftState)) {
-            System.out.print("\033[1;36m" + "left" + RESET);
-            left.printBoard();
+            // System.out.print("\033[1;36m" + "left" + RESET);
+            // left.printBoard();
             possibleMoves.add(left);
         }
 
         State rightState = new State(this);
         State right = rightState.go("d");
         if (!right.loseState() && !sameState(right, rightState)) {
-            System.out.print("\033[1;36m" + "right" + RESET);
-            right.printBoard();
+            // System.out.print("\033[1;36m" + "right" + RESET);
+            // right.printBoard();
             possibleMoves.add(right);
         }
-        System.out.println("\033[1;36m" + "------------------------------------------" + RESET);
+        // System.out.println("\033[1;36m" +
+        // "------------------------------------------" + RESET);
         return possibleMoves;
     }
 

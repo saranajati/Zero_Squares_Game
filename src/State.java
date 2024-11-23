@@ -107,7 +107,7 @@ public class State {
     {
         for (int i = 0; i < 7; i++) {
             ArrayList<Square> row = new ArrayList<>();
-            for (int j = 0; j < 7; j++) {
+            for (int j = 0; j < 11; j++) {
                 row.add(new Square());
             }
             board2.add(row);
@@ -119,44 +119,64 @@ public class State {
         board2.get(0).get(4).setBlock(true);
         board2.get(0).get(5).setBlock(true);
         board2.get(0).get(6).setBlock(true);
+        board2.get(0).get(7).setBlock(true);
+        board2.get(0).get(8).setBlock(true);
+        board2.get(0).get(9).setBlock(true);
+        board2.get(0).get(10).setBlock(true);
+        board2.get(1).get(0).setBlock(true);
+        board2.get(1).get(10).setBlock(true);
+        board2.get(2).get(0).setBlock(true);
+        board2.get(2).get(10).setBlock(true);
+        board2.get(3).get(0).setBlock(true);
+        board2.get(3).get(1).setBlock(true);
+        board2.get(3).get(10).setBlock(true);
+        board2.get(4).get(1).setBlock(true);
+        board2.get(4).get(6).setBlock(true);
+        board2.get(4).get(7).setBlock(true);
+        board2.get(4).get(8).setBlock(true);
+        board2.get(4).get(9).setBlock(true);
+        board2.get(4).get(10).setBlock(true);
+        board2.get(5).get(1).setBlock(true);
+        board2.get(5).get(6).setBlock(true);
         board2.get(6).get(1).setBlock(true);
         board2.get(6).get(2).setBlock(true);
         board2.get(6).get(3).setBlock(true);
         board2.get(6).get(4).setBlock(true);
         board2.get(6).get(5).setBlock(true);
         board2.get(6).get(6).setBlock(true);
-        board2.get(4).get(1).setBlock(true);
-        board2.get(5).get(1).setBlock(true);
-        board2.get(1).get(0).setBlock(true);
-        board2.get(2).get(0).setBlock(true);
-        board2.get(3).get(0).setBlock(true);
-        board2.get(4).get(0).setBlock(true);
-        board2.get(1).get(6).setBlock(true);
-        board2.get(2).get(6).setBlock(true);
-        board2.get(3).get(6).setBlock(true);
-        board2.get(4).get(6).setBlock(true);
-        board2.get(5).get(6).setBlock(true);
 
-        board2.get(1).get(1).setGoal(true);
-        board2.get(1).get(1).setGoalColor("blue");
+        board2.get(2).get(6).setGoal(true);
+        board2.get(2).get(6).setGoalColor("yellow");
+        board2.get(3).get(5).setGoal(true);
+        board2.get(3).get(5).setGoalColor("green");
+        board2.get(4).get(4).setGoal(true);
+        board2.get(4).get(4).setGoalColor("blue");
+        board2.get(5).get(3).setGoal(true);
+        board2.get(5).get(3).setGoalColor("red");
+        
         board2.get(1).get(1).setCube(true);
         board2.get(1).get(1).setCubeColor("yellow");
-
-        board2.get(1).get(3).setGoal(true);
-        board2.get(1).get(3).setGoalColor("yellow");
+        board2.get(1).get(2).setCube(true);
+        board2.get(1).get(2).setCubeColor("red");
         board2.get(1).get(3).setCube(true);
-        board2.get(1).get(3).setCubeColor("red");
+        board2.get(1).get(3).setCubeColor("blue");
+        board2.get(1).get(4).setCube(true);
+        board2.get(1).get(4).setCubeColor("green");
 
-        board2.get(1).get(5).setGoal(true);
-        board2.get(1).get(5).setGoalColor("red");
-        board2.get(1).get(5).setCube(true);
-        board2.get(1).get(5).setCubeColor("blue");
-
+        board2.get(4).get(0).setOut(true);
         board2.get(5).get(0).setOut(true);
+        board2.get(5).get(7).setOut(true);
+        board2.get(5).get(8).setOut(true);
+        board2.get(5).get(9).setOut(true);
+        board2.get(5).get(10).setOut(true);
         board2.get(6).get(0).setOut(true);
+        board2.get(6).get(7).setOut(true);
+        board2.get(6).get(8).setOut(true);
+        board2.get(6).get(9).setOut(true);
+        board2.get(6).get(10).setOut(true);
 
         for (int i = 0; i < 7; i++) {
-            for (int j = 0; j < 7; j++) {
+            for (int j = 0; j < 11; j++) {
                 if (!board2.get(i).get(j).block && !board2.get(i).get(j).out && !board2.get(i).get(j).goal
                         && !board2.get(i).get(j).cube && !board2.get(i).get(j).trap) {
                     board2.get(i).get(j).setRoad(true);
@@ -244,7 +264,7 @@ public class State {
             }
             case 2 -> {
                 rows = 7;
-                columns = 7;
+                columns = 11;
             }
             case 3 -> {
                 rows = 7;
@@ -255,7 +275,7 @@ public class State {
         }
     }
 
-    // moving 
+    // moving
     State go(String key) {
         State currentState = new State(this);
         switch (key) {
@@ -724,5 +744,4 @@ public class State {
         // "------------------------------------------" + RESET);
         return possibleMoves;
     }
-
 }

@@ -67,13 +67,13 @@ public class Graph {
                         Collections.reverse(solution);
                         break;
                   }
-                  for (State next : current.nextStates(level)) {
-                        if (notExist(visited, next)) {
-                              stack.push(next);
-                              visited.add(next);
-                              parents.put(next, current);
-                        }
-                  }
+                  // for (State next : current.nextStates(level)) {
+                  //       if (notExist(visited, next)) {
+                  //             stack.push(next);
+                  //             visited.add(next);
+                  //             parents.put(next, current);
+                  //       }
+                  // }
             }
             System.out.println();
             System.out.println("\033[1;35mSolution:\033[0m");
@@ -87,7 +87,7 @@ public class Graph {
       }
 
       // make sure that the state does not visited before
-      boolean notExist(Set<State> visited, State next) {
+      boolean notExist(ArrayList<State> visited, State next) {
             int counter = 0;
             State state = new State();
             for (State v : visited) {
@@ -95,5 +95,27 @@ public class Graph {
                         counter++;
             }
             return counter == 0;
+      }
+
+      ArrayList<State> dfsRecersion(int level, State state) {
+            // Set<State> visited = new HashSet<>();
+            ArrayList<State> solution = new ArrayList<>();
+            while (!state.winState()) {
+                  if (notExist(solution, state)) {  
+                        solution.add(state);
+                  }
+              State  next =  state.nextStates(level).get(0);
+              dfsRecersion(level, next);
+                  
+            }
+            System.out.println();
+            System.out.println("\033[1;35mSolution:\033[0m");
+            for (State s : solution) {
+                  s.printBoard();
+            }
+            int moves = solution.size() - 1;
+            System.out.println("\033[1;37mVisited states : " + solution.size() + "\033[0m");
+            System.out.println("\033[1;37mSolving moves : " + moves + "\033[0m");
+            return solution;
       }
 }

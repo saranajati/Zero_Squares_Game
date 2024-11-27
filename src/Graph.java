@@ -51,7 +51,7 @@ public class Graph {
       // find the solution using DFS algorithem
       ArrayList<State> dfs(int level, State initial) {
             Stack<State> stack = new Stack<>();
-            Set<State> visited = new HashSet<>();
+            ArrayList<State> visited = new ArrayList<>();
             ArrayList<State> solution = new ArrayList<>();
             Map<State, State> parents = new HashMap<>();
             stack.push(initial);
@@ -67,13 +67,13 @@ public class Graph {
                         Collections.reverse(solution);
                         break;
                   }
-                  // for (State next : current.nextStates(level)) {
-                  //       if (notExist(visited, next)) {
-                  //             stack.push(next);
-                  //             visited.add(next);
-                  //             parents.put(next, current);
-                  //       }
-                  // }
+                  for (State next : current.nextStates(level)) {
+                        if (notExist(visited, next)) {
+                              stack.push(next);
+                              visited.add(next);
+                              parents.put(next, current);
+                        }
+                  }
             }
             System.out.println();
             System.out.println("\033[1;35mSolution:\033[0m");
@@ -97,25 +97,36 @@ public class Graph {
             return counter == 0;
       }
 
-      ArrayList<State> dfsRecersion(int level, State state) {
-            // Set<State> visited = new HashSet<>();
-            ArrayList<State> solution = new ArrayList<>();
-            while (!state.winState()) {
-                  if (notExist(solution, state)) {  
-                        solution.add(state);
+      ArrayList<State> dfsRecursion(int level, State current, ArrayList<State> visited, Map<State, State> parents) {
+            if (current.winState()) {
+                  ArrayList<State> solution = new ArrayList<>();
+                  while (current != null) {
+                        solution.add(current);
+                        current = parents.get(current);
                   }
-              State  next =  state.nextStates(level).get(0);
-              dfsRecersion(level, next);
-                  
+                  Collections.reverse(solution);
+                  System.out.println();
+                  System.out.println("\033[1;35mSolution:\033[0m");
+                  for (State state : solution) {
+                        state.printBoard();
+                  }
+                  int moves = solution.size() - 1;
+                  System.out.println("\033[1;37mVisited states : " + visited.size() + "\033[0m");
+                  System.out.println("\033[1;37mSolving moves : " + moves + "\033[0m");
+                  return solution;
             }
-            System.out.println();
-            System.out.println("\033[1;35mSolution:\033[0m");
-            for (State s : solution) {
-                  s.printBoard();
+            for (State next : current.nextStates(level)) {
+                  if (notExist(visited, next)) {
+                        visited.add(next);
+                        parents.put(next, current);
+                        ArrayList<State> result = dfsRecursion(level, next, visited, parents);
+                        if (result != null) {
+                              return result;
+                        }
+                        visited.remove(next);
+                        parents.remove(next);
+                  }
             }
-            int moves = solution.size() - 1;
-            System.out.println("\033[1;37mVisited states : " + solution.size() + "\033[0m");
-            System.out.println("\033[1;37mSolving moves : " + moves + "\033[0m");
-            return solution;
+            return null;
       }
 }

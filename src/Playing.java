@@ -1,7 +1,9 @@
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.Set;
 
 @SuppressWarnings("ConvertToTryWithResources")
 
@@ -48,7 +50,7 @@ public class Playing {
       }
 
       void dfsRecersion(int level) {
-            ArrayList<State> visited = new ArrayList<>();
+            Set<State> visited = new HashSet<>();
             Map<State, State> parents = new HashMap<>();
             State initState = new State();
             initState.level(level);
@@ -57,10 +59,18 @@ public class Playing {
             graph.dfsRecursion(level, initState, visited, parents);
       }
 
+      void ucsSolving(int level) {
+            State initState = new State();
+            initState.level(level);
+            initState.dimension(level);
+            Graph graph = new Graph();
+            graph.ucs(level, initState);
+      }
+
       public static void main(String[] args) {
             Playing play = new Playing();
             Scanner input2 = new Scanner(System.in);
-            System.out.println("Do you want to play (p), or get the solution by BFS(b) or DFS(d) or DFS Recersion(dr)");
+            System.out.println("Do you want to play (p), or get the solution by BFS(b) or DFS(d) or UCS(u) or DFS Recersion(dr)");
             String game = input2.nextLine();
             Scanner input1 = new Scanner(System.in);
             System.out.println("Choose a level from 1 to 3");
@@ -73,6 +83,8 @@ public class Playing {
                   play.dfsSolving(level);
             if ("dr".equals(game))
                   play.dfsRecersion(level);
+            if ("u".equals(game))
+                  play.ucsSolving(level);
             input1.close();
             input2.close();
       }

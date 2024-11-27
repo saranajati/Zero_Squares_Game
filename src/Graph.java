@@ -97,6 +97,7 @@ public class Graph {
             return counter == 0;
       }
 
+      // find the solution using DFS algorithem in recersion
       ArrayList<State> dfsRecursion(int level, State current, ArrayList<State> visited, Map<State, State> parents) {
             if (current.winState()) {
                   ArrayList<State> solution = new ArrayList<>();
@@ -111,7 +112,6 @@ public class Graph {
                         state.printBoard();
                   }
                   int moves = solution.size() - 1;
-                  System.out.println("\033[1;37mVisited states : " + visited.size() + "\033[0m");
                   System.out.println("\033[1;37mSolving moves : " + moves + "\033[0m");
                   return solution;
             }
@@ -123,8 +123,6 @@ public class Graph {
                         if (result != null) {
                               return result;
                         }
-                        visited.remove(next);
-                        parents.remove(next);
                   }
             }
             return null;

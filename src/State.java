@@ -5,6 +5,11 @@ public class State {
     public static String COLOR = "";
     ArrayList<ArrayList<Square>> levelBoard;
     static int rows, columns;
+    int cost;
+
+    int getCost() {
+        return cost;
+    }
 
     State() {
     }
@@ -153,7 +158,7 @@ public class State {
         board2.get(4).get(4).setGoalColor("blue");
         board2.get(5).get(3).setGoal(true);
         board2.get(5).get(3).setGoalColor("red");
-        
+
         board2.get(1).get(1).setCube(true);
         board2.get(1).get(1).setCubeColor("yellow");
         board2.get(1).get(2).setCube(true);

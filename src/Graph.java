@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -120,7 +121,8 @@ public class Graph {
 
       // find the solution using UCS algorithem
       ArrayList<State> ucs(int level, State initial) {
-            PriorityQueue<State> priorityQueue = new PriorityQueue<>();
+            Comparator<State> comparator = (State s1, State s2) -> Integer.compare(s1.getCost(), s2.getCost());
+            PriorityQueue<State> priorityQueue = new PriorityQueue<>(comparator);
             Set<State> visited = new HashSet<>();
             ArrayList<State> solution = new ArrayList<>();
             Map<State, State> parents = new HashMap<>();
@@ -144,12 +146,7 @@ public class Graph {
                   }
                   for (State next : currentState.nextStates(level)) {
                         int newCost = currentCost + next.cost;
-                        int nextCost;
-                        if (costs.get(next) != null)
-                              nextCost = costs.get(next);
-                        else
-                              nextCost = Integer.MAX_VALUE;
-                        if (notExist(visited, next) || newCost < nextCost) {
+                        if (notExist(visited, next) || newCost < costs.getOrDefault(next, Integer.MAX_VALUE)) {
                               visited.add(next);
                               next.cost = newCost;
                               parents.put(next, currentState);

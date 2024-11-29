@@ -5,9 +5,9 @@ public class State {
     public static String COLOR = "";
     ArrayList<ArrayList<Square>> levelBoard;
     static int rows, columns;
-    int cost;
+    public int cost =1;
 
-    int getCost() {
+    public int getCost() {
         return cost;
     }
 
@@ -749,4 +749,6 @@ public class State {
         // "------------------------------------------" + RESET);
         return possibleMoves;
     }
+
+   
 }

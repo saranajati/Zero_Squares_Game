@@ -70,7 +70,8 @@ public class Playing {
       public static void main(String[] args) {
             Playing play = new Playing();
             Scanner input2 = new Scanner(System.in);
-            System.out.println("Do you want to play (p), or get the solution by BFS(b) or DFS(d) or UCS(u) or DFS Recersion(dr)");
+            System.out.println(
+                        "Do you want to play (p), or get the solution by BFS(b) or DFS(d) or UCS(u) or DFS Recersion(dr)");
             String game = input2.nextLine();
             Scanner input1 = new Scanner(System.in);
             System.out.println("Choose a level from 1 to 3");

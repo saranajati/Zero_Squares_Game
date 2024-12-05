@@ -147,11 +147,12 @@ public class Graph {
                   for (State next : currentState.nextStates(level)) {
                         int newCost = currentCost + next.cost;
                         if (notExist(visited, next) || newCost < costs.getOrDefault(next, Integer.MAX_VALUE)) {
-                              visited.add(next);
                               next.cost = newCost;
+                              visited.add(next);
                               parents.put(next, currentState);
                               costs.put(next, newCost);
                               priorityQueue.add(next);
+                              // System.out.println(newCost);
                         }
                   }
             }
@@ -161,6 +162,7 @@ public class Graph {
                   state.printBoard();
             }
             int moves = solution.size() - 1;
+            System.out.println("\033[1;37mSolving visited: " + visited + "\033[0m");
             System.out.println("\033[1;37mSolving moves : " + moves + "\033[0m");
             System.out.println("\033[1;37mTotal Cost : " + totalCost + "\033[0m");
             return solution;
@@ -176,4 +178,5 @@ public class Graph {
             }
             return counter == 0;
       }
+
 }

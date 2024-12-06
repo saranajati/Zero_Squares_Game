@@ -68,25 +68,46 @@ public class Playing {
             graph.ucs(level, initState);
       }
 
+      void shcSolving(int level) {
+            State initState = new State();
+            initState.level(level);
+            initState.dimension(level);
+            Graph graph = new Graph();
+            graph.shc(level, initState);
+      }
+
+      void sahcSolving(int level) {
+            State initState = new State();
+            initState.level(level);
+            initState.dimension(level);
+            Graph graph = new Graph();
+            graph.sahc(level, initState);
+      }
+
       public static void main(String[] args) {
             Playing play = new Playing();
             Scanner input2 = new Scanner(System.in);
+            System.out.println("Do you want to :");
             System.out.println(
-                        "Do you want to play (p), or get the solution by BFS(b) or DFS(d) or UCS(u) or DFS Recersion(dr)");
-            String game = input2.nextLine();
+                        "1-Play \n2-BFS solution \n3-DFS solution \n4-DFS Recersion solution \n5-UCS solution \n6-Simple HC solution \n7-Steepest Acsent HC solution");
+            int game = input2.nextInt();
             Scanner input1 = new Scanner(System.in);
             System.out.println("Choose a level from 1 to 3");
             int level = input1.nextInt();
-            if ("p".equals(game))
+            if (game == 1)
                   play.startPlaying(level);
-            if ("b".equals(game))
+            if (game == 2)
                   play.bfsSolving(level);
-            if ("d".equals(game))
+            if (game == 3)
                   play.dfsSolving(level);
-            if ("dr".equals(game))
+            if (game == 4)
                   play.dfsRecersion(level);
-            if ("u".equals(game))
+            if (game == 5)
                   play.ucsSolving(level);
+            if (game == 6)
+                  play.shcSolving(level);
+            if (game == 7)
+                  play.sahcSolving(level);
             input1.close();
             input2.close();
       }

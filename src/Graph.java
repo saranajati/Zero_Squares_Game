@@ -11,8 +11,17 @@ import java.util.Set;
 import java.util.Stack;
 
 public class Graph {
+      class Position {
+            int x, y;
 
-      // find the solution using BFS algorithem
+            Position(int x, int y) {
+                  this.x = x;
+                  this.y = y;
+            }
+      }
+
+      // ALGORITHMS
+      // find the solution using Bredth First Search algorithem
       ArrayList<State> bfs(int level, State initial) {
             Queue<State> queue = new LinkedList<>();
             Set<State> visited = new HashSet<>();
@@ -50,7 +59,7 @@ public class Graph {
             return solution;
       }
 
-      // find the solution using DFS algorithem
+      // find the solution using Deep First Search algorithem
       ArrayList<State> dfs(int level, State initial) {
             Stack<State> stack = new Stack<>();
             Set<State> visited = new HashSet<>();
@@ -88,7 +97,7 @@ public class Graph {
             return solution;
       }
 
-      // find the solution using DFS algorithem in recersion
+      // find the solution using Deep First Search algorithem in recersion
       ArrayList<State> dfsRecursion(int level, State current, Set<State> visited, Map<State, State> parents) {
             if (current.winState()) {
                   ArrayList<State> solution = new ArrayList<>();
@@ -119,7 +128,7 @@ public class Graph {
             return null;
       }
 
-      // find the solution using UCS algorithem
+      // find the solution using Uniform Cost Search algorithem
       ArrayList<State> ucs(int level, State initial) {
             Comparator<State> comparator = (State s1, State s2) -> Integer.compare(s1.getCost(), s2.getCost());
             PriorityQueue<State> priorityQueue = new PriorityQueue<>(comparator);
@@ -152,7 +161,6 @@ public class Graph {
                               parents.put(next, currentState);
                               costs.put(next, newCost);
                               priorityQueue.add(next);
-                              // System.out.println(newCost);
                         }
                   }
             }
@@ -162,13 +170,74 @@ public class Graph {
                   state.printBoard();
             }
             int moves = solution.size() - 1;
-            System.out.println("\033[1;37mSolving visited: " + visited + "\033[0m");
+            System.out.println("\033[1;37mVisited states: " + visited.size() + "\033[0m");
             System.out.println("\033[1;37mSolving moves : " + moves + "\033[0m");
             System.out.println("\033[1;37mTotal Cost : " + totalCost + "\033[0m");
             return solution;
       }
 
-      // make sure that the state does not visited before
+      // find the solution using Simple Hill Climbing algorithem
+      ArrayList<State> shc(int level, State initial) {
+            ArrayList<State> solution = new ArrayList<>();
+            State currentState = new State(initial);
+            currentState.heuristic = manhattanHeuristic(currentState);
+            solution.add(currentState);
+            int totalHeuristic = currentState.heuristic;
+            while (!currentState.winState()) {
+                  State neighbor = neighbor(currentState, level);
+                  if (currentState.sameState(currentState, neighbor)) {
+                        System.out.println("Stuck in local maximum :");
+                        currentState.printBoard();
+                        return solution;
+                  } else {
+                        currentState = neighbor;
+                        solution.add(neighbor);
+                        totalHeuristic += neighbor.heuristic;
+                  }
+            }
+            System.out.println();
+            System.out.println("\033[1;35mSolution:\033[0m");
+            for (State state : solution) {
+                  state.printBoard();
+            }
+            int moves = solution.size() - 1;
+            System.out.println("\033[1;37mSolving moves : " + moves + "\033[0m");
+            System.out.println("\033[1;37mTotal heuristic : " + totalHeuristic + "\033[0m");
+            return solution;
+      }
+
+      // find the solution using Steepest Acsent Hill Climbing algorithem
+      ArrayList<State> sahc(int level, State initial) {
+            ArrayList<State> solution = new ArrayList<>();
+            State currentState = new State(initial);
+            currentState.heuristic = manhattanHeuristic(currentState);
+            solution.add(currentState);
+            int totalHeuristic = currentState.heuristic;
+            while (!currentState.winState()) {
+                  State neighbor = minNeighbor(currentState, level);
+                  if (currentState.sameState(currentState, neighbor)) {
+                        System.out.println("Stuck in local maximum :");
+                        currentState.printBoard();
+                        return solution;
+                  } else {
+                        currentState = neighbor;
+                        solution.add(neighbor);
+                        totalHeuristic += neighbor.heuristic;
+                  }
+            }
+            System.out.println();
+            System.out.println("\033[1;35mSolution:\033[0m");
+            for (State state : solution) {
+                  state.printBoard();
+            }
+            int moves = solution.size() - 1;
+            System.out.println("\033[1;37mSolving moves : " + moves + "\033[0m");
+            System.out.println("\033[1;37mTotal heuristic : " + totalHeuristic + "\033[0m");
+            return solution;
+      }
+
+      // HELPERS
+      // make sure that the state haven't been visited before
       boolean notExist(Set<State> visited, State next) {
             int counter = 0;
             State state = new State();
@@ -177,6 +246,62 @@ public class Graph {
                         counter++;
             }
             return counter == 0;
+      }
+
+      // get the first less heuristic next state
+      State neighbor(State currentState, int level) {
+            for (State next : currentState.nextStates(level)) {
+                  next.heuristic = manhattanHeuristic(next);
+                  if (next.heuristic < currentState.heuristic)
+                        return next;
+            }
+            return currentState;
+      }
+
+      // get the smallest heuristic next state
+      State minNeighbor(State currentState, int level) {
+            Map<State, Integer> neighbors = new HashMap<>();
+            for (State next : currentState.nextStates(level))
+                  neighbors.put(next, manhattanHeuristic(next));
+            int minHeuristic = Collections.min(neighbors.values());
+            for (Map.Entry<State, Integer> neighbor : neighbors.entrySet()) {
+                  if (neighbor.getValue().equals(minHeuristic)) {
+                        State minState = neighbor.getKey();
+                        minState.heuristic = minHeuristic;
+                        return minState;
+                  }
+            }
+            return null;
+      }
+
+      // calculating manhattan heuristic
+      int manhattanHeuristic(State current) {
+            Map<String, Position> goals = new HashMap<>();
+            Map<String, Position> cubes = new HashMap<>();
+            int heuristic = 0;
+            int distance;
+            for (int i = 0; i < State.rows; i++) {
+                  for (int j = 0; j < State.columns; j++) {
+                        if (current.levelBoard.get(i).get(j).cube == true) {
+                              Position position = new Position(i, j);
+                              cubes.put(current.levelBoard.get(i).get(j).cubeColor, position);
+                        }
+                        if (current.levelBoard.get(i).get(j).goal == true) {
+                              Position position = new Position(i, j);
+                              goals.put(current.levelBoard.get(i).get(j).goalColor, position);
+                        }
+                  }
+            }
+            for (Map.Entry<String, Position> goal : goals.entrySet()) {
+                  for (Map.Entry<String, Position> cube : cubes.entrySet()) {
+                        if (cube.getKey().equals(goal.getKey())) {
+                              distance = Math.abs(cube.getValue().x - goal.getValue().x)
+                                          + Math.abs(cube.getValue().y - goal.getValue().y);
+                              heuristic += distance;
+                        }
+                  }
+            }
+            return heuristic;
       }
 
 }

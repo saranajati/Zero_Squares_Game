@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 
 public class State {
@@ -7,11 +8,16 @@ public class State {
     public static String COLOR = "";
     ArrayList<ArrayList<Square>> levelBoard;
     static int rows, columns;
-    public int cost = 1;
+    public int cost = 0;
     public int heuristic = 0;
+    public int f = 0;
 
     public int getCost() {
         return cost;
+    }
+
+    public void setCost() {
+        this.cost += 1;
     }
 
     State() {
@@ -34,13 +40,11 @@ public class State {
     {
         for (int i = 0; i < 8; i++) {
             ArrayList<Square> row = new ArrayList<>();
-            for (int j = 0; j < 11; j++) {
+            for (int j = 0; j < 12; j++) {
                 row.add(new Square());
             }
             board1.add(row);
         }
-        board1.get(0).get(0).setBlock(true);
-        board1.get(0).get(1).setBlock(true);
         board1.get(0).get(2).setBlock(true);
         board1.get(0).get(3).setBlock(true);
         board1.get(0).get(4).setBlock(true);
@@ -48,26 +52,37 @@ public class State {
         board1.get(0).get(6).setBlock(true);
         board1.get(0).get(7).setBlock(true);
         board1.get(0).get(8).setBlock(true);
-        board1.get(1).get(8).setBlock(true);
+        board1.get(0).get(9).setBlock(true);
+        board1.get(1).get(1).setBlock(true);
+        board1.get(1).get(2).setBlock(true);
+        board1.get(1).get(9).setBlock(true);
+        board1.get(1).get(10).setBlock(true);
         board1.get(2).get(0).setBlock(true);
-        board1.get(2).get(8).setBlock(true);
-        board1.get(2).get(9).setBlock(true);
+        board1.get(2).get(1).setBlock(true);
+        board1.get(2).get(4).setBlock(true);
+        board1.get(2).get(7).setBlock(true);
         board1.get(2).get(10).setBlock(true);
+        board1.get(2).get(11).setBlock(true);
         board1.get(3).get(0).setBlock(true);
-        board1.get(3).get(10).setBlock(true);
+        board1.get(3).get(3).setBlock(true);
+        board1.get(3).get(8).setBlock(true);
+        board1.get(3).get(11).setBlock(true);
         board1.get(4).get(0).setBlock(true);
+        board1.get(4).get(5).setBlock(true);
         board1.get(4).get(8).setBlock(true);
-        board1.get(4).get(10).setBlock(true);
+        board1.get(4).get(9).setBlock(true);
+        board1.get(4).get(11).setBlock(true);
         board1.get(5).get(0).setBlock(true);
-        board1.get(5).get(1).setBlock(true);
         board1.get(5).get(2).setBlock(true);
         board1.get(5).get(4).setBlock(true);
         board1.get(5).get(5).setBlock(true);
-        board1.get(5).get(6).setBlock(true);
-        board1.get(5).get(8).setBlock(true);
-        board1.get(5).get(10).setBlock(true);
-        board1.get(6).get(2).setBlock(true);
-        board1.get(6).get(10).setBlock(true);
+        board1.get(5).get(9).setBlock(true);
+        board1.get(5).get(11).setBlock(true);
+        board1.get(6).get(0).setBlock(true);
+        board1.get(6).get(4).setBlock(true);
+        board1.get(6).get(11).setBlock(true);
+        board1.get(7).get(0).setBlock(true);
+        board1.get(7).get(1).setBlock(true);
         board1.get(7).get(2).setBlock(true);
         board1.get(7).get(3).setBlock(true);
         board1.get(7).get(4).setBlock(true);
@@ -77,29 +92,23 @@ public class State {
         board1.get(7).get(8).setBlock(true);
         board1.get(7).get(9).setBlock(true);
         board1.get(7).get(10).setBlock(true);
-        board1.get(1).get(0).setTrap(true);
-        board1.get(1).get(1).setGoal(true);
-        board1.get(1).get(1).setGoalColor("white");
-        board1.get(1).get(2).setGoal(true);
-        board1.get(1).get(2).setGoalColor("blue");
-        board1.get(2).get(1).setGoal(true);
-        board1.get(2).get(1).setGoalColor("green");
-        board1.get(1).get(7).setCube(true);
-        board1.get(1).get(7).setCubeColor("red");
-        board1.get(4).get(3).setCube(true);
-        board1.get(4).get(3).setCubeColor("blue");
-        board1.get(4).get(4).setCube(true);
-        board1.get(4).get(4).setCubeColor("green");
-        board1.get(0).get(9).setOut(true);
+        board1.get(7).get(11).setBlock(true);
+        board1.get(3).get(5).setGoal(true);
+        board1.get(3).get(5).setGoalColor("red");
+        board1.get(2).get(6).setGoal(true);
+        board1.get(2).get(6).setGoalColor("blue");
+        board1.get(5).get(1).setCube(true);
+        board1.get(5).get(1).setCubeColor("red");
+        board1.get(5).get(10).setCube(true);
+        board1.get(5).get(10).setCubeColor("blue");
+        board1.get(0).get(0).setOut(true);
+        board1.get(0).get(1).setOut(true);
         board1.get(0).get(10).setOut(true);
-        board1.get(1).get(9).setOut(true);
-        board1.get(1).get(10).setOut(true);
-        board1.get(6).get(0).setOut(true);
-        board1.get(6).get(1).setOut(true);
-        board1.get(7).get(0).setOut(true);
-        board1.get(7).get(1).setOut(true);
+        board1.get(0).get(11).setOut(true);
+        board1.get(1).get(0).setOut(true);
+        board1.get(1).get(11).setOut(true);
         for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 11; j++) {
+            for (int j = 0; j < 12; j++) {
                 if (board1.get(i).get(j).block == false && board1.get(i).get(j).out == false
                         &&
                         board1.get(i).get(j).goal == false
@@ -112,77 +121,70 @@ public class State {
 
     ArrayList<ArrayList<Square>> board2 = new ArrayList<>();
     {
-        for (int i = 0; i < 7; i++) {
+        for (int i = 0; i < 5; i++) {
             ArrayList<Square> row = new ArrayList<>();
-            for (int j = 0; j < 11; j++) {
+            for (int j = 0; j < 9; j++) {
                 row.add(new Square());
             }
             board2.add(row);
         }
-        board2.get(0).get(0).setBlock(true);
-        board2.get(0).get(1).setBlock(true);
-        board2.get(0).get(2).setBlock(true);
         board2.get(0).get(3).setBlock(true);
         board2.get(0).get(4).setBlock(true);
         board2.get(0).get(5).setBlock(true);
         board2.get(0).get(6).setBlock(true);
-        board2.get(0).get(7).setBlock(true);
-        board2.get(0).get(8).setBlock(true);
-        board2.get(0).get(9).setBlock(true);
-        board2.get(0).get(10).setBlock(true);
         board2.get(1).get(0).setBlock(true);
-        board2.get(1).get(10).setBlock(true);
+        board2.get(1).get(1).setBlock(true);
+        board2.get(1).get(2).setBlock(true);
+        board2.get(1).get(3).setBlock(true);
+        board2.get(1).get(6).setBlock(true);
+        board2.get(1).get(7).setBlock(true);
+        board2.get(1).get(8).setBlock(true);
         board2.get(2).get(0).setBlock(true);
-        board2.get(2).get(10).setBlock(true);
+        board2.get(2).get(8).setBlock(true);
         board2.get(3).get(0).setBlock(true);
-        board2.get(3).get(1).setBlock(true);
-        board2.get(3).get(10).setBlock(true);
+        board2.get(3).get(3).setBlock(true);
+        board2.get(3).get(6).setBlock(true);
+        board2.get(3).get(8).setBlock(true);
+        board2.get(4).get(0).setBlock(true);
         board2.get(4).get(1).setBlock(true);
+        board2.get(4).get(2).setBlock(true);
+        board2.get(4).get(3).setBlock(true);
+        board2.get(4).get(4).setBlock(true);
+        board2.get(4).get(5).setBlock(true);
         board2.get(4).get(6).setBlock(true);
         board2.get(4).get(7).setBlock(true);
         board2.get(4).get(8).setBlock(true);
-        board2.get(4).get(9).setBlock(true);
-        board2.get(4).get(10).setBlock(true);
-        board2.get(5).get(1).setBlock(true);
-        board2.get(5).get(6).setBlock(true);
-        board2.get(6).get(1).setBlock(true);
-        board2.get(6).get(2).setBlock(true);
-        board2.get(6).get(3).setBlock(true);
-        board2.get(6).get(4).setBlock(true);
-        board2.get(6).get(5).setBlock(true);
-        board2.get(6).get(6).setBlock(true);
-        board2.get(2).get(6).setGoal(true);
-        board2.get(2).get(6).setGoalColor("yellow");
-        board2.get(3).get(5).setGoal(true);
-        board2.get(3).get(5).setGoalColor("green");
-        board2.get(4).get(4).setGoal(true);
-        board2.get(4).get(4).setGoalColor("blue");
-        board2.get(5).get(3).setGoal(true);
-        board2.get(5).get(3).setGoalColor("red");
-        board2.get(1).get(1).setCube(true);
-        board2.get(1).get(1).setCubeColor("yellow");
-        board2.get(1).get(2).setCube(true);
-        board2.get(1).get(2).setCubeColor("red");
-        board2.get(1).get(3).setCube(true);
-        board2.get(1).get(3).setCubeColor("blue");
+        board2.get(1).get(5).setGoal(true);
+        board2.get(1).get(5).setGoalColor("yellow");
+        board2.get(2).get(1).setGoal(true);
+        board2.get(2).get(1).setGoalColor("blue");
+        board2.get(3).get(2).setGoal(true);
+        board2.get(3).get(2).setGoalColor("pink");
+        board2.get(3).get(4).setGoal(true);
+        board2.get(3).get(4).setGoalColor("red");
+        board2.get(3).get(7).setGoal(true);
+        board2.get(3).get(7).setGoalColor("green");
         board2.get(1).get(4).setCube(true);
-        board2.get(1).get(4).setCubeColor("green");
-        board2.get(4).get(0).setOut(true);
-        board2.get(5).get(0).setOut(true);
-        board2.get(5).get(7).setOut(true);
-        board2.get(5).get(8).setOut(true);
-        board2.get(5).get(9).setOut(true);
-        board2.get(5).get(10).setOut(true);
-        board2.get(6).get(0).setOut(true);
-        board2.get(6).get(7).setOut(true);
-        board2.get(6).get(8).setOut(true);
-        board2.get(6).get(9).setOut(true);
-        board2.get(6).get(10).setOut(true);
-        for (int i = 0; i < 7; i++) {
-            for (int j = 0; j < 11; j++) {
-                if (!board2.get(i).get(j).block && !board2.get(i).get(j).out &&
-                        !board2.get(i).get(j).goal
-                        && !board2.get(i).get(j).cube && !board2.get(i).get(j).trap) {
+        board2.get(1).get(4).setCubeColor("red");
+        board2.get(2).get(2).setCube(true);
+        board2.get(2).get(2).setCubeColor("pink");
+        board2.get(2).get(3).setCube(true);
+        board2.get(2).get(3).setCubeColor("blue");
+        board2.get(3).get(2).setCube(true);
+        board2.get(3).get(2).setCubeColor("green");
+        board2.get(3).get(7).setCube(true);
+        board2.get(3).get(7).setCubeColor("yellow");
+        board2.get(0).get(0).setOut(true);
+        board2.get(0).get(1).setOut(true);
+        board2.get(0).get(2).setOut(true);
+        board2.get(0).get(7).setOut(true);
+        board2.get(0).get(8).setOut(true);
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 9; j++) {
+                if (board2.get(i).get(j).block == false && board2.get(i).get(j).out == false
+                        &&
+                        board2.get(i).get(j).goal == false
+                        && board2.get(i).get(j).cube == false && board2.get(i).get(j).trap == false) {
                     board2.get(i).get(j).setRoad(true);
                 }
             }
@@ -191,9 +193,9 @@ public class State {
 
     ArrayList<ArrayList<Square>> board3 = new ArrayList<>();
     {
-        for (int i = 0; i < 7; i++) {
+        for (int i = 0; i < 6; i++) {
             ArrayList<Square> row = new ArrayList<>();
-            for (int j = 0; j < 7; j++) {
+            for (int j = 0; j < 16; j++) {
                 row.add(new Square());
             }
             board3.add(row);
@@ -202,45 +204,307 @@ public class State {
         board3.get(0).get(4).setBlock(true);
         board3.get(0).get(5).setBlock(true);
         board3.get(0).get(6).setBlock(true);
-        board3.get(5).get(0).setBlock(true);
-        board3.get(6).get(0).setBlock(true);
-        board3.get(6).get(1).setBlock(true);
-        board3.get(6).get(2).setBlock(true);
-        board3.get(6).get(3).setBlock(true);
-        board3.get(6).get(4).setBlock(true);
-        board3.get(6).get(5).setBlock(true);
-        board3.get(6).get(6).setBlock(true);
+        board3.get(0).get(7).setBlock(true);
+        board3.get(0).get(8).setBlock(true);
+        board3.get(0).get(10).setBlock(true);
+        board3.get(0).get(11).setBlock(true);
+        board3.get(0).get(12).setBlock(true);
+        board3.get(0).get(13).setBlock(true);
+        board3.get(0).get(14).setBlock(true);
+        board3.get(0).get(15).setBlock(true);
+        board3.get(1).get(0).setBlock(true);
+        board3.get(1).get(1).setBlock(true);
+        board3.get(1).get(2).setBlock(true);
+        board3.get(1).get(3).setBlock(true);
+        board3.get(1).get(4).setBlock(true);
+        board3.get(1).get(8).setBlock(true);
+        board3.get(1).get(9).setBlock(true);
+        board3.get(1).get(10).setBlock(true);
+        board3.get(1).get(12).setBlock(true);
+        board3.get(1).get(13).setBlock(true);
+        board3.get(1).get(15).setBlock(true);
         board3.get(2).get(0).setBlock(true);
-        board3.get(3).get(0).setBlock(true);
-        board3.get(3).get(4).setBlock(true);
-        board3.get(4).get(0).setBlock(true);
-        board3.get(4).get(4).setBlock(true);
-        board3.get(1).get(6).setBlock(true);
         board3.get(2).get(6).setBlock(true);
-        board3.get(3).get(6).setBlock(true);
+        board3.get(2).get(15).setBlock(true);
+        board3.get(3).get(0).setBlock(true);
+        board3.get(3).get(12).setBlock(true);
+        board3.get(3).get(15).setBlock(true);
+        board3.get(4).get(0).setBlock(true);
+        board3.get(4).get(1).setBlock(true);
+        board3.get(4).get(2).setBlock(true);
+        board3.get(4).get(3).setBlock(true);
+        board3.get(4).get(4).setBlock(true);
         board3.get(4).get(6).setBlock(true);
+        board3.get(4).get(7).setBlock(true);
+        board3.get(4).get(9).setBlock(true);
+        board3.get(4).get(10).setBlock(true);
+        board3.get(4).get(11).setBlock(true);
+        board3.get(4).get(12).setBlock(true);
+        board3.get(4).get(13).setBlock(true);
+        board3.get(4).get(14).setBlock(true);
+        board3.get(4).get(15).setBlock(true);
+        board3.get(5).get(4).setBlock(true);
+        board3.get(5).get(5).setBlock(true);
         board3.get(5).get(6).setBlock(true);
-        board3.get(1).get(0).setOut(true);
+        board3.get(5).get(7).setBlock(true);
+        board3.get(5).get(9).setBlock(true);
         board3.get(0).get(0).setOut(true);
         board3.get(0).get(1).setOut(true);
-        board3.get(1).get(0).setOut(true);
-        board3.get(0).get(2).setTrap(true);
-        board3.get(1).get(1).setTrap(true);
-        board3.get(2).get(0).setTrap(true);
-        board3.get(4).get(1).setCube(true);
-        board3.get(4).get(1).setCubeColor("red");
-        board3.get(5).get(1).setCube(true);
-        board3.get(5).get(1).setCubeColor("blue");
-        board3.get(2).get(1).setGoal(true);
-        board3.get(2).get(1).setGoalColor("red");
-        board3.get(1).get(3).setGoal(true);
-        board3.get(1).get(3).setGoalColor("blue");
-        for (int i = 0; i < 7; i++) {
-            for (int j = 0; j < 7; j++) {
+        board3.get(0).get(2).setOut(true);
+        board3.get(0).get(9).setOut(true);
+        board3.get(5).get(0).setOut(true);
+        board3.get(5).get(1).setOut(true);
+        board3.get(5).get(2).setOut(true);
+        board3.get(5).get(3).setOut(true);
+        board3.get(5).get(10).setOut(true);
+        board3.get(5).get(11).setOut(true);
+        board3.get(5).get(12).setOut(true);
+        board3.get(5).get(13).setOut(true);
+        board3.get(5).get(14).setOut(true);
+        board3.get(5).get(15).setOut(true);
+        board3.get(5).get(8).setTrap(true);
+        board3.get(2).get(1).setCube(true);
+        board3.get(2).get(1).setCubeColor("red");
+        board3.get(2).get(2).setCube(true);
+        board3.get(2).get(2).setCubeColor("blue");
+        board3.get(2).get(3).setCube(true);
+        board3.get(2).get(3).setCubeColor("green");
+        board3.get(3).get(1).setCube(true);
+        board3.get(3).get(1).setCubeColor("yellow");
+        board3.get(3).get(2).setCube(true);
+        board3.get(3).get(2).setCubeColor("pink");
+        board3.get(1).get(7).setGoal(true);
+        board3.get(1).get(7).setGoalColor("pink");
+        board3.get(1).get(11).setGoal(true);
+        board3.get(1).get(11).setGoalColor("yellow");
+        board3.get(1).get(14).setGoal(true);
+        board3.get(1).get(14).setGoalColor("green");
+        board3.get(4).get(5).setGoal(true);
+        board3.get(4).get(5).setGoalColor("white");
+        board3.get(4).get(8).setGoal(true);
+        board3.get(4).get(8).setGoalColor("blue");
+        for (int i = 0; i < 6; i++) {
+            for (int j = 0; j < 16; j++) {
                 if (!board3.get(i).get(j).block && !board3.get(i).get(j).out &&
                         !board3.get(i).get(j).goal
                         && !board3.get(i).get(j).cube && !board3.get(i).get(j).trap) {
                     board3.get(i).get(j).setRoad(true);
+                }
+            }
+        }
+    }
+
+    ArrayList<ArrayList<Square>> board4 = new ArrayList<>();
+    {
+        for (int i = 0; i < 8; i++) {
+            ArrayList<Square> row = new ArrayList<>();
+            for (int j = 0; j < 11; j++) {
+                row.add(new Square());
+            }
+            board4.add(row);
+        }
+        board4.get(0).get(0).setBlock(true);
+        board4.get(0).get(1).setBlock(true);
+        board4.get(0).get(2).setBlock(true);
+        board4.get(0).get(3).setBlock(true);
+        board4.get(0).get(4).setBlock(true);
+        board4.get(0).get(5).setBlock(true);
+        board4.get(0).get(6).setBlock(true);
+        board4.get(0).get(7).setBlock(true);
+        board4.get(0).get(8).setBlock(true);
+        board4.get(1).get(8).setBlock(true);
+        board4.get(2).get(0).setBlock(true);
+        board4.get(2).get(8).setBlock(true);
+        board4.get(2).get(9).setBlock(true);
+        board4.get(2).get(10).setBlock(true);
+        board4.get(3).get(0).setBlock(true);
+        board4.get(3).get(10).setBlock(true);
+        board4.get(4).get(0).setBlock(true);
+        board4.get(4).get(8).setBlock(true);
+        board4.get(4).get(10).setBlock(true);
+        board4.get(5).get(0).setBlock(true);
+        board4.get(5).get(1).setBlock(true);
+        board4.get(5).get(2).setBlock(true);
+        board4.get(5).get(4).setBlock(true);
+        board4.get(5).get(5).setBlock(true);
+        board4.get(5).get(6).setBlock(true);
+        board4.get(5).get(8).setBlock(true);
+        board4.get(5).get(10).setBlock(true);
+        board4.get(6).get(2).setBlock(true);
+        board4.get(6).get(10).setBlock(true);
+        board4.get(7).get(2).setBlock(true);
+        board4.get(7).get(3).setBlock(true);
+        board4.get(7).get(4).setBlock(true);
+        board4.get(7).get(5).setBlock(true);
+        board4.get(7).get(6).setBlock(true);
+        board4.get(7).get(7).setBlock(true);
+        board4.get(7).get(8).setBlock(true);
+        board4.get(7).get(9).setBlock(true);
+        board4.get(7).get(10).setBlock(true);
+        board4.get(1).get(0).setTrap(true);
+        board4.get(1).get(1).setGoal(true);
+        board4.get(1).get(1).setGoalColor("white");
+        board4.get(1).get(2).setGoal(true);
+        board4.get(1).get(2).setGoalColor("blue");
+        board4.get(2).get(1).setGoal(true);
+        board4.get(2).get(1).setGoalColor("green");
+        board4.get(1).get(7).setCube(true);
+        board4.get(1).get(7).setCubeColor("red");
+        board4.get(4).get(3).setCube(true);
+        board4.get(4).get(3).setCubeColor("blue");
+        board4.get(4).get(4).setCube(true);
+        board4.get(4).get(4).setCubeColor("green");
+        board4.get(0).get(9).setOut(true);
+        board4.get(0).get(10).setOut(true);
+        board4.get(1).get(9).setOut(true);
+        board4.get(1).get(10).setOut(true);
+        board4.get(6).get(0).setOut(true);
+        board4.get(6).get(1).setOut(true);
+        board4.get(7).get(0).setOut(true);
+        board4.get(7).get(1).setOut(true);
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 11; j++) {
+                if (board4.get(i).get(j).block == false && board4.get(i).get(j).out == false
+                        &&
+                        board4.get(i).get(j).goal == false
+                        && board4.get(i).get(j).cube == false && board4.get(i).get(j).trap == false) {
+                    board4.get(i).get(j).setRoad(true);
+                }
+            }
+        }
+    }
+
+    ArrayList<ArrayList<Square>> board5 = new ArrayList<>();
+    {
+        for (int i = 0; i < 7; i++) {
+            ArrayList<Square> row = new ArrayList<>();
+            for (int j = 0; j < 11; j++) {
+                row.add(new Square());
+            }
+            board5.add(row);
+        }
+        board5.get(0).get(0).setBlock(true);
+        board5.get(0).get(1).setBlock(true);
+        board5.get(0).get(2).setBlock(true);
+        board5.get(0).get(3).setBlock(true);
+        board5.get(0).get(4).setBlock(true);
+        board5.get(0).get(5).setBlock(true);
+        board5.get(0).get(6).setBlock(true);
+        board5.get(0).get(7).setBlock(true);
+        board5.get(0).get(8).setBlock(true);
+        board5.get(0).get(9).setBlock(true);
+        board5.get(0).get(10).setBlock(true);
+        board5.get(1).get(0).setBlock(true);
+        board5.get(1).get(10).setBlock(true);
+        board5.get(2).get(0).setBlock(true);
+        board5.get(2).get(10).setBlock(true);
+        board5.get(3).get(0).setBlock(true);
+        board5.get(3).get(1).setBlock(true);
+        board5.get(3).get(10).setBlock(true);
+        board5.get(4).get(1).setBlock(true);
+        board5.get(4).get(6).setBlock(true);
+        board5.get(4).get(7).setBlock(true);
+        board5.get(4).get(8).setBlock(true);
+        board5.get(4).get(9).setBlock(true);
+        board5.get(4).get(10).setBlock(true);
+        board5.get(5).get(1).setBlock(true);
+        board5.get(5).get(6).setBlock(true);
+        board5.get(6).get(1).setBlock(true);
+        board5.get(6).get(2).setBlock(true);
+        board5.get(6).get(3).setBlock(true);
+        board5.get(6).get(4).setBlock(true);
+        board5.get(6).get(5).setBlock(true);
+        board5.get(6).get(6).setBlock(true);
+        board5.get(2).get(6).setGoal(true);
+        board5.get(2).get(6).setGoalColor("yellow");
+        board5.get(3).get(5).setGoal(true);
+        board5.get(3).get(5).setGoalColor("green");
+        board5.get(4).get(4).setGoal(true);
+        board5.get(4).get(4).setGoalColor("blue");
+        board5.get(5).get(3).setGoal(true);
+        board5.get(5).get(3).setGoalColor("red");
+        board5.get(1).get(1).setCube(true);
+        board5.get(1).get(1).setCubeColor("yellow");
+        board5.get(1).get(2).setCube(true);
+        board5.get(1).get(2).setCubeColor("red");
+        board5.get(1).get(3).setCube(true);
+        board5.get(1).get(3).setCubeColor("blue");
+        board5.get(1).get(4).setCube(true);
+        board5.get(1).get(4).setCubeColor("green");
+        board5.get(4).get(0).setOut(true);
+        board5.get(5).get(0).setOut(true);
+        board5.get(5).get(7).setOut(true);
+        board5.get(5).get(8).setOut(true);
+        board5.get(5).get(9).setOut(true);
+        board5.get(5).get(10).setOut(true);
+        board5.get(6).get(0).setOut(true);
+        board5.get(6).get(7).setOut(true);
+        board5.get(6).get(8).setOut(true);
+        board5.get(6).get(9).setOut(true);
+        board5.get(6).get(10).setOut(true);
+        for (int i = 0; i < 7; i++) {
+            for (int j = 0; j < 11; j++) {
+                if (!board5.get(i).get(j).block && !board5.get(i).get(j).out &&
+                        !board5.get(i).get(j).goal
+                        && !board5.get(i).get(j).cube && !board5.get(i).get(j).trap) {
+                    board5.get(i).get(j).setRoad(true);
+                }
+            }
+        }
+    }
+
+    ArrayList<ArrayList<Square>> board6 = new ArrayList<>();
+    {
+        for (int i = 0; i < 7; i++) {
+            ArrayList<Square> row = new ArrayList<>();
+            for (int j = 0; j < 7; j++) {
+                row.add(new Square());
+            }
+            board6.add(row);
+        }
+        board6.get(0).get(3).setBlock(true);
+        board6.get(0).get(4).setBlock(true);
+        board6.get(0).get(5).setBlock(true);
+        board6.get(0).get(6).setBlock(true);
+        board6.get(5).get(0).setBlock(true);
+        board6.get(6).get(0).setBlock(true);
+        board6.get(6).get(1).setBlock(true);
+        board6.get(6).get(2).setBlock(true);
+        board6.get(6).get(3).setBlock(true);
+        board6.get(6).get(4).setBlock(true);
+        board6.get(6).get(5).setBlock(true);
+        board6.get(6).get(6).setBlock(true);
+        board6.get(2).get(0).setBlock(true);
+        board6.get(3).get(0).setBlock(true);
+        board6.get(3).get(4).setBlock(true);
+        board6.get(4).get(0).setBlock(true);
+        board6.get(4).get(4).setBlock(true);
+        board6.get(1).get(6).setBlock(true);
+        board6.get(2).get(6).setBlock(true);
+        board6.get(3).get(6).setBlock(true);
+        board6.get(4).get(6).setBlock(true);
+        board6.get(5).get(6).setBlock(true);
+        board6.get(1).get(0).setOut(true);
+        board6.get(0).get(0).setOut(true);
+        board6.get(0).get(1).setOut(true);
+        board6.get(1).get(0).setOut(true);
+        board6.get(0).get(2).setTrap(true);
+        board6.get(1).get(1).setTrap(true);
+        board6.get(2).get(0).setTrap(true);
+        board6.get(4).get(1).setCube(true);
+        board6.get(4).get(1).setCubeColor("red");
+        board6.get(5).get(1).setCube(true);
+        board6.get(5).get(1).setCubeColor("blue");
+        board6.get(2).get(1).setGoal(true);
+        board6.get(2).get(1).setGoalColor("red");
+        board6.get(1).get(3).setGoal(true);
+        board6.get(1).get(3).setGoalColor("blue");
+        for (int i = 0; i < 7; i++) {
+            for (int j = 0; j < 7; j++) {
+                if (!board6.get(i).get(j).block && !board6.get(i).get(j).out &&
+                        !board6.get(i).get(j).goal
+                        && !board6.get(i).get(j).cube && !board6.get(i).get(j).trap) {
+                    board6.get(i).get(j).setRoad(true);
                 }
             }
         }
@@ -251,13 +515,25 @@ public class State {
         switch (level) {
             case 1 -> {
                 rows = 8;
-                columns = 11;
+                columns = 12;
             }
             case 2 -> {
+                rows = 5;
+                columns = 9;
+            }
+            case 3 -> {
+                rows = 6;
+                columns = 16;
+            }
+            case 4 -> {
+                rows = 8;
+                columns = 11;
+            }
+            case 5 -> {
                 rows = 7;
                 columns = 11;
             }
-            case 3 -> {
+            case 6 -> {
                 rows = 7;
                 columns = 7;
             }
@@ -266,12 +542,15 @@ public class State {
         }
     }
 
-     // choose the level
-     void level(int level) {
+    // choose the level
+    void level(int level) {
         switch (level) {
             case 1 -> levelBoard = board1;
             case 2 -> levelBoard = board2;
             case 3 -> levelBoard = board3;
+            case 4 -> levelBoard = board4;
+            case 5 -> levelBoard = board5;
+            case 6 -> levelBoard = board6;
             default -> System.out.println("you can choose only from 1 to 3");
         }
     }
@@ -281,6 +560,8 @@ public class State {
         State currentState = new State(this);
         switch (key) {
             case "w" -> {
+                int moves = 0;
+                Map<ArrayList<ArrayList<Square>>, Integer> ret = new HashMap<>();
                 Map<String, Boolean> moving = new HashMap<>();
                 moving.put("green", false);
                 moving.put("red", false);
@@ -294,8 +575,11 @@ public class State {
                                 if (moving.get(currentState.levelBoard.get(i).get(j).cubeColor)) {
                                 } else {
                                     if (currentState.levelBoard.get(i - 1).get(j).cube != true
-                                            && currentState.levelBoard.get(i - 1).get(j).block != true)
-                                        currentState.levelBoard = goUp(currentState.levelBoard, i, j);
+                                            && currentState.levelBoard.get(i - 1).get(j).block != true) {
+                                        ret = goUp(currentState.levelBoard, i, j);
+                                        for (Map.Entry<ArrayList<ArrayList<Square>>, Integer> res : ret.entrySet())
+                                            moves += res.getValue();
+                                    }
                                     if (currentState.levelBoard.get(i + 1).get(j).cube == true)
                                         moving.put(currentState.levelBoard.get(i + 1).get(j).cubeColor, true);
                                 }
@@ -303,31 +587,52 @@ public class State {
                         }
                     }
                 }
+                for (Map.Entry<ArrayList<ArrayList<Square>>, Integer> res : ret.entrySet())
+                    currentState.levelBoard = res.getKey();
+                currentState.cost = moves;
                 moving.replaceAll((k, v) -> false);
             }
             case "s" -> {
+                int moves = 0;
+                Map<ArrayList<ArrayList<Square>>, Integer> ret = new HashMap<>();
                 for (int i = 0; i < rows - 1; i++) {
                     for (int j = 0; j < columns; j++) {
                         if (currentState.levelBoard.get(i).get(j).cube == true) {
                             if (currentState.levelBoard.get(i + 1).get(j).cube != true
-                                    && currentState.levelBoard.get(i + 1).get(j).block != true)
-                                currentState.levelBoard = goDown(currentState.levelBoard, i, j);
+                                    && currentState.levelBoard.get(i + 1).get(j).block != true) {
+                                ret = goDown(currentState.levelBoard, i, j);
+                                for (Map.Entry<ArrayList<ArrayList<Square>>, Integer> res : ret.entrySet())
+                                    moves += res.getValue();
+                            }
                         }
                     }
                 }
+                for (Map.Entry<ArrayList<ArrayList<Square>>, Integer> res : ret.entrySet())
+                    currentState.levelBoard = res.getKey();
+                currentState.cost = moves;
             }
             case "d" -> {
+                int moves = 0;
+                Map<ArrayList<ArrayList<Square>>, Integer> ret = new HashMap<>();
                 for (int i = 0; i < rows; i++) {
                     for (int j = 0; j < columns - 1; j++) {
                         if (currentState.levelBoard.get(i).get(j).cube == true) {
                             if (currentState.levelBoard.get(i).get(j + 1).cube != true
-                                    && currentState.levelBoard.get(i).get(j + 1).block != true)
-                                currentState.levelBoard = goRight(currentState.levelBoard, i, j);
+                                    && currentState.levelBoard.get(i).get(j + 1).block != true) {
+                                ret = goRight(currentState.levelBoard, i, j);
+                                for (Map.Entry<ArrayList<ArrayList<Square>>, Integer> res : ret.entrySet())
+                                    moves += res.getValue();
+                            }
                         }
                     }
                 }
+                for (Map.Entry<ArrayList<ArrayList<Square>>, Integer> res : ret.entrySet())
+                    currentState.levelBoard = res.getKey();
+                currentState.cost = moves;
             }
             case "a" -> {
+                int moves = 0;
+                Map<ArrayList<ArrayList<Square>>, Integer> ret = new HashMap<>();
                 Map<String, Boolean> moving = new HashMap<>();
                 moving.put("green", false);
                 moving.put("red", false);
@@ -341,8 +646,11 @@ public class State {
                                 if (moving.get(currentState.levelBoard.get(i).get(j).cubeColor)) {
                                 } else {
                                     if (currentState.levelBoard.get(i).get(j - 1).cube != true
-                                            && currentState.levelBoard.get(i).get(j - 1).block != true)
-                                        currentState.levelBoard = goLeft(currentState.levelBoard, i, j);
+                                            && currentState.levelBoard.get(i).get(j - 1).block != true) {
+                                        ret = goLeft(currentState.levelBoard, i, j);
+                                        for (Map.Entry<ArrayList<ArrayList<Square>>, Integer> res : ret.entrySet())
+                                            moves += res.getValue();
+                                    }
                                     if (currentState.levelBoard.get(i).get(j + 1).cube == true) {
                                         moving.put(currentState.levelBoard.get(i).get(j + 1).cubeColor, true);
                                     }
@@ -351,6 +659,9 @@ public class State {
                         }
                     }
                 }
+                for (Map.Entry<ArrayList<ArrayList<Square>>, Integer> res : ret.entrySet())
+                    currentState.levelBoard = res.getKey();
+                currentState.cost = moves;
                 moving.replaceAll((k, v) -> false);
             }
             default -> {
@@ -361,7 +672,9 @@ public class State {
     }
 
     // moving up
-    ArrayList<ArrayList<Square>> goUp(ArrayList<ArrayList<Square>> levelBoard, int i, int j) {
+    Map<ArrayList<ArrayList<Square>>, Integer> goUp(ArrayList<ArrayList<Square>> levelBoard, int i, int j) {
+        Map<ArrayList<ArrayList<Square>>, Integer> ret = new HashMap<>();
+        int moves = 0;
         while (i > 0) {
             if (levelBoard.get(i).get(j).cube == true) {
                 if (levelBoard.get(i - 1).get(j).block == true || levelBoard.get(i - 1).get(j).cube == true) {
@@ -375,6 +688,7 @@ public class State {
                     if (levelBoard.get(i).get(j).goal != true) {
                         levelBoard.get(i).get(j).setRoad(true);
                     }
+                    moves++;
                 } else if (levelBoard.get(i - 1).get(j).goal == true && levelBoard.get(i - 1).get(j).cube == false) {
                     if (levelBoard.get(i - 1).get(j).goalColor.equals(levelBoard.get(i).get(j).cubeColor)) {
                         levelBoard.get(i - 1).get(j).setGoal(false);
@@ -406,6 +720,7 @@ public class State {
                             levelBoard.get(i).get(j).setRoad(true);
                         }
                     }
+                    moves++;
                 } else if (levelBoard.get(i - 1).get(j).trap == true) {
                     levelBoard.get(i - 1).get(j).setOut(true);
                     levelBoard.get(i - 1).get(j).setTrap(false);
@@ -419,16 +734,17 @@ public class State {
             }
             i--;
         }
-        return levelBoard;
+        ret.put(levelBoard, moves);
+        return ret;
     }
 
     // moving down
-    ArrayList<ArrayList<Square>> goDown(ArrayList<ArrayList<Square>> levelBoard, int i, int j) {
+    Map<ArrayList<ArrayList<Square>>, Integer> goDown(ArrayList<ArrayList<Square>> levelBoard, int i, int j) {
+        Map<ArrayList<ArrayList<Square>>, Integer> ret = new HashMap<>();
+        int moves = 0;
         while (i < rows - 1) {
             if (levelBoard.get(i).get(j).cube == true) {
-                if (levelBoard.get(i + 1).get(j).block == true || levelBoard.get(i + 1).get(j).cube == true) {
-                    break;
-                } else if (levelBoard.get(i + 1).get(j).road == true) {
+                if (levelBoard.get(i + 1).get(j).road == true) {
                     levelBoard.get(i + 1).get(j).setRoad(false);
                     levelBoard.get(i + 1).get(j).setCube(true);
                     levelBoard.get(i).get(j).setCube(false);
@@ -437,6 +753,7 @@ public class State {
                     if (levelBoard.get(i).get(j).goal != true) {
                         levelBoard.get(i).get(j).setRoad(true);
                     }
+                    moves++;
                 } else if (levelBoard.get(i + 1).get(j).goal == true && levelBoard.get(i + 1).get(j).cube == false) {
                     if (levelBoard.get(i + 1).get(j).goalColor.equals(levelBoard.get(i).get(j).cubeColor)) {
                         levelBoard.get(i + 1).get(j).setGoal(false);
@@ -468,6 +785,7 @@ public class State {
                             levelBoard.get(i).get(j).setRoad(true);
                         }
                     }
+                    moves++;
                 } else if (levelBoard.get(i + 1).get(j).trap == true) {
                     levelBoard.get(i + 1).get(j).setOut(true);
                     levelBoard.get(i + 1).get(j).setTrap(false);
@@ -481,11 +799,14 @@ public class State {
             }
             i++;
         }
-        return levelBoard;
+        ret.put(levelBoard, moves);
+        return ret;
     }
 
     // moving left
-    ArrayList<ArrayList<Square>> goLeft(ArrayList<ArrayList<Square>> levelBoard, int i, int j) {
+    Map<ArrayList<ArrayList<Square>>, Integer> goLeft(ArrayList<ArrayList<Square>> levelBoard, int i, int j) {
+        Map<ArrayList<ArrayList<Square>>, Integer> ret = new HashMap<>();
+        int moves = 0;
         while (j > 0) {
             if (levelBoard.get(i).get(j).cube == true) {
                 if (levelBoard.get(i).get(j - 1).block == true || levelBoard.get(i).get(j - 1).cube == true) {
@@ -499,6 +820,7 @@ public class State {
                     if (levelBoard.get(i).get(j).goal != true) {
                         levelBoard.get(i).get(j).setRoad(true);
                     }
+                    moves++;
                 } else if (levelBoard.get(i).get(j - 1).goal == true && levelBoard.get(i).get(j - 1).cube == false) {
                     if (levelBoard.get(i).get(j - 1).goalColor.equals(levelBoard.get(i).get(j).cubeColor)) {
                         levelBoard.get(i).get(j - 1).setGoal(false);
@@ -530,6 +852,7 @@ public class State {
                             levelBoard.get(i).get(j).setRoad(true);
                         }
                     }
+                    moves++;
                 } else if (levelBoard.get(i).get(j - 1).trap == true) {
                     levelBoard.get(i).get(j - 1).setOut(true);
                     levelBoard.get(i).get(j - 1).setTrap(false);
@@ -543,24 +866,26 @@ public class State {
             }
             j--;
         }
-        return levelBoard;
+        ret.put(levelBoard, moves);
+        return ret;
     }
 
     // moving right
-    ArrayList<ArrayList<Square>> goRight(ArrayList<ArrayList<Square>> levelBoard, int i, int j) {
+    Map<ArrayList<ArrayList<Square>>, Integer> goRight(ArrayList<ArrayList<Square>> levelBoard, int i, int j) {
+        Map<ArrayList<ArrayList<Square>>, Integer> ret = new HashMap<>();
+        int moves = 0;
         while (j < columns - 1) {
             if (levelBoard.get(i).get(j).cube == true) {
-                if (levelBoard.get(i).get(j + 1).block == true || levelBoard.get(i).get(j + 1).cube == true) {
-                    break;
-                } else if (levelBoard.get(i).get(j + 1).road == true) {
-                    if (levelBoard.get(i).get(j).goal != true) {
-                        levelBoard.get(i).get(j).setRoad(true);
-                    }
+                if (levelBoard.get(i).get(j + 1).road == true) {
                     levelBoard.get(i).get(j + 1).setRoad(false);
                     levelBoard.get(i).get(j + 1).setCube(true);
                     levelBoard.get(i).get(j + 1).setCubeColor(levelBoard.get(i).get(j).cubeColor);
                     levelBoard.get(i).get(j).setCube(false);
                     levelBoard.get(i).get(j).setCubeColor("");
+                    if (levelBoard.get(i).get(j).goal != true) {
+                        levelBoard.get(i).get(j).setRoad(true);
+                    }
+                    moves++;
                 } else if (levelBoard.get(i).get(j + 1).goal == true && levelBoard.get(i).get(j + 1).cube == false) {
                     if (levelBoard.get(i).get(j + 1).goalColor.equals(levelBoard.get(i).get(j).cubeColor)) {
                         levelBoard.get(i).get(j + 1).setGoal(false);
@@ -592,6 +917,7 @@ public class State {
                             levelBoard.get(i).get(j).setRoad(true);
                         }
                     }
+                    moves++;
                 } else if (levelBoard.get(i).get(j + 1).trap == true) {
                     levelBoard.get(i).get(j + 1).setOut(true);
                     levelBoard.get(i).get(j + 1).setTrap(false);
@@ -605,7 +931,8 @@ public class State {
             }
             j++;
         }
-        return levelBoard;
+        ret.put(levelBoard, moves);
+        return ret;
     }
 
     // printing the boared
@@ -626,7 +953,7 @@ public class State {
                     COLOR = "\033[0;100m";
                 }
                 if (square.trap == true) {
-                    square.setSymbol("()");
+                    square.setSymbol("[]");
                     COLOR = "\033[1;30m";
                 }
                 if (square.goal == true) {
@@ -699,42 +1026,73 @@ public class State {
 
     // check if you are a loser
     boolean loseState() {
-        int goales = 0;
+        int goals = 0;
         int cubes = 0;
+        boolean repeated;
+        ArrayList<String> goalsColor = new ArrayList<>();
         for (ArrayList<Square> row : this.levelBoard) {
             for (Square square : row) {
                 if (square.goal == true) {
-                    goales++;
+                    goals++;
+                    goalsColor.add(square.goalColor);
                 }
                 if (square.cube == true) {
                     cubes++;
                 }
             }
         }
-        return goales != cubes;
+        HashSet<String> set = new HashSet<>(goalsColor);
+        repeated = set.size() != goalsColor.size();
+        return goals != cubes || repeated;
     }
 
     // check if two states are the same
-    boolean sameState(State first, State second) {
+    // boolean sameState(State first, State second) {
+    //     for (int i = 0; i < first.levelBoard.size(); i++) {
+    //         for (int j = 0; j < first.levelBoard.get(i).size(); j++) {
+    //             if (first.levelBoard.get(i).get(j).block != second.levelBoard.get(i).get(j).block)
+    //                 return false;
+    //             if (first.levelBoard.get(i).get(j).cube != second.levelBoard.get(i).get(j).cube)
+    //                 return false;
+    //             if (first.levelBoard.get(i).get(j).goal != second.levelBoard.get(i).get(j).goal)
+    //                 return false;
+    //             if (first.levelBoard.get(i).get(j).out != second.levelBoard.get(i).get(j).out)
+    //                 return false;
+    //             if (first.levelBoard.get(i).get(j).road != second.levelBoard.get(i).get(j).road)
+    //                 return false;
+    //             if (first.levelBoard.get(i).get(j).trap != second.levelBoard.get(i).get(j).trap)
+    //                 return false;
+    //             if (!first.levelBoard.get(i).get(j).symbol.equals(second.levelBoard.get(i).get(j).symbol))
+    //                 return false;
+    //             if (!first.levelBoard.get(i).get(j).cubeColor.equals(second.levelBoard.get(i).get(j).cubeColor))
+    //                 return false;
+    //             if (!first.levelBoard.get(i).get(j).goalColor.equals(second.levelBoard.get(i).get(j).goalColor))
+    //                 return false;
+    //         }
+    //     }
+    //     return true;
+    // }
+
+    boolean sameState(State first) {
         for (int i = 0; i < first.levelBoard.size(); i++) {
             for (int j = 0; j < first.levelBoard.get(i).size(); j++) {
-                if (first.levelBoard.get(i).get(j).block != second.levelBoard.get(i).get(j).block)
+                if (first.levelBoard.get(i).get(j).block != this.levelBoard.get(i).get(j).block)
                     return false;
-                if (first.levelBoard.get(i).get(j).cube != second.levelBoard.get(i).get(j).cube)
+                if (first.levelBoard.get(i).get(j).cube != this.levelBoard.get(i).get(j).cube)
                     return false;
-                if (first.levelBoard.get(i).get(j).goal != second.levelBoard.get(i).get(j).goal)
+                if (first.levelBoard.get(i).get(j).goal != this.levelBoard.get(i).get(j).goal)
                     return false;
-                if (first.levelBoard.get(i).get(j).out != second.levelBoard.get(i).get(j).out)
+                if (first.levelBoard.get(i).get(j).out != this.levelBoard.get(i).get(j).out)
                     return false;
-                if (first.levelBoard.get(i).get(j).road != second.levelBoard.get(i).get(j).road)
+                if (first.levelBoard.get(i).get(j).road != this.levelBoard.get(i).get(j).road)
                     return false;
-                if (first.levelBoard.get(i).get(j).trap != second.levelBoard.get(i).get(j).trap)
+                if (first.levelBoard.get(i).get(j).trap != this.levelBoard.get(i).get(j).trap)
                     return false;
-                if (!first.levelBoard.get(i).get(j).symbol.equals(second.levelBoard.get(i).get(j).symbol))
+                if (!first.levelBoard.get(i).get(j).symbol.equals(this.levelBoard.get(i).get(j).symbol))
                     return false;
-                if (!first.levelBoard.get(i).get(j).cubeColor.equals(second.levelBoard.get(i).get(j).cubeColor))
+                if (!first.levelBoard.get(i).get(j).cubeColor.equals(this.levelBoard.get(i).get(j).cubeColor))
                     return false;
-                if (!first.levelBoard.get(i).get(j).goalColor.equals(second.levelBoard.get(i).get(j).goalColor))
+                if (!first.levelBoard.get(i).get(j).goalColor.equals(this.levelBoard.get(i).get(j).goalColor))
                     return false;
             }
         }
@@ -744,25 +1102,22 @@ public class State {
     // all of the possible coming moves
     ArrayList<State> nextStates(int level) {
         ArrayList<State> possibleMoves = new ArrayList<>();
+        State parent = new State(this);
 
-        State upState = new State(this);
-        State up = upState.go("w");
-        if (!up.loseState() && !sameState(up, upState))
+        State up = parent.go("w");
+        if (!up.loseState() && !up.sameState(parent))
             possibleMoves.add(up);
 
-        State downState = new State(this);
-        State down = downState.go("s");
-        if (!down.loseState() && !sameState(down, downState))
+        State down = parent.go("s");
+        if (!down.loseState() && !down.sameState(parent))
             possibleMoves.add(down);
 
-        State leftState = new State(this);
-        State left = leftState.go("a");
-        if (!left.loseState() && !sameState(left, leftState))
+        State left = parent.go("a");
+        if (!left.loseState() && !left.sameState(parent))
             possibleMoves.add(left);
 
-        State rightState = new State(this);
-        State right = rightState.go("d");
-        if (!right.loseState() && !sameState(right, rightState))
+        State right = parent.go("d");
+        if (!right.loseState() && !right.sameState(parent))
             possibleMoves.add(right);
 
         return possibleMoves;

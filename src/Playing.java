@@ -84,16 +84,31 @@ public class Playing {
             graph.sahc(level, initState);
       }
 
+      void aStarSolving(int level) {
+            State initState = new State();
+            initState.level(level);
+            initState.dimension(level);
+            Graph graph = new Graph();
+            graph.aStar(level, initState);
+      }
+
       public static void main(String[] args) {
+            long startTime = System.currentTimeMillis();
+            long startMemory = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
             Playing play = new Playing();
-            Scanner input2 = new Scanner(System.in);
-            System.out.println("Do you want to :");
-            System.out.println(
-                        "1-Play \n2-BFS solution \n3-DFS solution \n4-DFS Recersion solution \n5-UCS solution \n6-Simple HC solution \n7-Steepest Acsent HC solution");
-            int game = input2.nextInt();
             Scanner input1 = new Scanner(System.in);
-            System.out.println("Choose a level from 1 to 3");
+            System.out.println("Choose a level from 1 to 6");
+            State state = new State();
+            for (int i = 1; i <= 6 ; i++) {
+                  state.level(i);
+                  state.dimension(i);
+                  state.printBoard();
+            }
             int level = input1.nextInt();
+            Scanner input2 = new Scanner(System.in);
+            System.out.println(
+                        "Do you want to : \n1-Play \n2-BFS solution \n3-DFS solution \n4-DFS Recersion solution \n5-UCS solution \n6-Simple HC solution \n7-Steepest Acsent HC solution \n8-A* solution");
+            int game = input2.nextInt();
             if (game == 1)
                   play.startPlaying(level);
             if (game == 2)
@@ -108,7 +123,13 @@ public class Playing {
                   play.shcSolving(level);
             if (game == 7)
                   play.sahcSolving(level);
+            if (game == 8)
+                  play.aStarSolving(level);
             input1.close();
             input2.close();
+            long endMemory = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
+            System.out.println("\033[1;37mUsed memory : " + Math.abs(startMemory - endMemory) / 1048576 + " MB\033[0m");
+            long endTime = System.currentTimeMillis();
+            System.out.println("\033[1;37mRun time : " + (endTime - startTime) / 1000 + " s\033[0m");
       }
 }

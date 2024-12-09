@@ -1,0 +1,14 @@
+Level : 10
+Algorithm : bfs
+Visited states : 301
+Solving moves : 44
+Memory : 21.0 MB
+Duration : 943.0 ms
+
+Level : 20
+Algorithm : bfs
+Visited states : 4685
+Solving moves : 13
+Memory : 109.0 MB
+Duration : 11599.0 ms
+

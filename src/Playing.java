@@ -56,6 +56,8 @@ public class Playing {
             State initState = new State();
             initState.level(level);
             initState.dimension(level);
+            visited.add(initState);
+            parents.put(initState, null);
             Graph graph = new Graph();
             graph.dfsRecursion(level, initState, visited, parents);
       }
@@ -93,21 +95,13 @@ public class Playing {
       }
 
       public static void main(String[] args) {
-            long startTime = System.currentTimeMillis();
-            long startMemory = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
             Playing play = new Playing();
             Scanner input1 = new Scanner(System.in);
             System.out.println("Choose a level from 1 to 6");
-            State state = new State();
-            for (int i = 1; i <= 6 ; i++) {
-                  state.level(i);
-                  state.dimension(i);
-                  state.printBoard();
-            }
             int level = input1.nextInt();
             Scanner input2 = new Scanner(System.in);
             System.out.println(
-                        "Do you want to : \n1-Play \n2-BFS solution \n3-DFS solution \n4-DFS Recersion solution \n5-UCS solution \n6-Simple HC solution \n7-Steepest Acsent HC solution \n8-A* solution");
+                        "1-Play \n2-BFS \n3-DFS \n4-DFS Recersion \n5-UCS \n6-Simple HC \n7-Steepest Acsent HC \n8-A*");
             int game = input2.nextInt();
             if (game == 1)
                   play.startPlaying(level);
@@ -127,9 +121,5 @@ public class Playing {
                   play.aStarSolving(level);
             input1.close();
             input2.close();
-            long endMemory = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
-            System.out.println("\033[1;37mUsed memory : " + Math.abs(startMemory - endMemory) / 1048576 + " MB\033[0m");
-            long endTime = System.currentTimeMillis();
-            System.out.println("\033[1;37mRun time : " + (endTime - startTime) / 1000 + " s\033[0m");
       }
 }

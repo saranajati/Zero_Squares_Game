@@ -1,0 +1,21 @@
+Level : 10
+Algorithm : dfs_recersion
+Visited states : 245
+Solving moves : 111
+Memory : 1.0 MB
+Duration : 902.0 ms
+
+Level : 20
+Algorithm : dfs_recersion
+Visited states : 30
+Solving moves : 24
+Memory : 0.0 MB
+Duration : 216.0 ms
+
+Level : 30
+Algorithm : dfs_recersion
+Visited states : 903
+Solving moves : 228
+Memory : 2.0 MB
+Duration : 620.0 ms
+

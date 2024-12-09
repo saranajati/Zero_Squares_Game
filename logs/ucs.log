@@ -1,0 +1,21 @@
+Level : 10
+Algorithm : ucs
+Visited states : 300
+Solving moves : 44
+Memory : 21.0 MB
+Duration : 1043.0 ms
+
+Level : 20
+Algorithm : ucs
+Visited states : 2447
+Solving moves : 14
+Memory : 74.0 MB
+Duration : 3785.0 ms
+
+Level : 30
+Algorithm : ucs
+Visited states : 43327
+Solving moves : 23
+Memory : 1202.0 MB
+Duration : 1245319.0 ms
+

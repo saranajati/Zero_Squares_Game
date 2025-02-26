@@ -590,7 +590,7 @@ public class State {
                 for (Map.Entry<ArrayList<ArrayList<Square>>, Integer> res : ret.entrySet())
                     currentState.levelBoard = res.getKey();
                 currentState.cost = moves;
-                moving.replaceAll((k, v) -> false);
+                moving.replaceAll((_, _) -> false);
             }
             case "s" -> {
                 int moves = 0;
@@ -662,7 +662,7 @@ public class State {
                 for (Map.Entry<ArrayList<ArrayList<Square>>, Integer> res : ret.entrySet())
                     currentState.levelBoard = res.getKey();
                 currentState.cost = moves;
-                moving.replaceAll((k, v) -> false);
+                moving.replaceAll((_, _) -> false);
             }
             default -> {
                 System.out.println("you can only use (w, a, s, d)");
@@ -941,66 +941,66 @@ public class State {
         for (ArrayList<Square> row : this.levelBoard) {
             for (Square square : row) {
                 if (square.out == true) {
-                    square.setSymbol("  ");
+                    square.setSymbol("   ");
                     COLOR = "";
                 }
                 if (square.road == true) {
-                    square.setSymbol("  ");
+                    square.setSymbol("   ");
                     COLOR = "\033[0;107m";
                 }
                 if (square.block == true) {
-                    square.setSymbol(". ");
+                    square.setSymbol(" . ");
                     COLOR = "\033[0;100m";
                 }
                 if (square.trap == true) {
-                    square.setSymbol("[]");
+                    square.setSymbol("[ ]");
                     COLOR = "\033[1;30m";
                 }
                 if (square.goal == true) {
                     if ("red".equals(square.goalColor)) {
-                        square.setSymbol("[]");
+                        square.setSymbol("[ ]");
                         COLOR = "\033[1;91m";
                     }
                     if ("green".equals(square.goalColor)) {
-                        square.setSymbol("[]");
+                        square.setSymbol("[ ]");
                         COLOR = "\033[1;92m";
                     }
                     if ("yellow".equals(square.goalColor)) {
-                        square.setSymbol("[]");
+                        square.setSymbol("[ ]");
                         COLOR = "\033[1;93m";
                     }
                     if ("blue".equals(square.goalColor)) {
-                        square.setSymbol("[]");
+                        square.setSymbol("[ ]");
                         COLOR = "\033[1;94m";
                     }
                     if ("pink".equals(square.goalColor)) {
-                        square.setSymbol("[]");
+                        square.setSymbol("[ ]");
                         COLOR = "\033[1;95m";
                     }
                     if ("white".equals(square.goalColor)) {
-                        square.setSymbol("[]");
+                        square.setSymbol("[ ]");
                         COLOR = "\033[1;97m";
                     }
                 }
                 if (square.cube == true) {
                     if ("red".equals(square.cubeColor)) {
-                        square.setSymbol("  ");
+                        square.setSymbol("   ");
                         COLOR = "\033[41m";
                     }
                     if ("green".equals(square.cubeColor)) {
-                        square.setSymbol("  ");
+                        square.setSymbol("   ");
                         COLOR = "\033[42m";
                     }
                     if ("yellow".equals(square.cubeColor)) {
-                        square.setSymbol("  ");
+                        square.setSymbol("   ");
                         COLOR = "\033[43m";
                     }
                     if ("blue".equals(square.cubeColor)) {
-                        square.setSymbol("  ");
+                        square.setSymbol("   ");
                         COLOR = "\033[44m";
                     }
                     if ("pink".equals(square.cubeColor)) {
-                        square.setSymbol("  ");
+                        square.setSymbol("   ");
                         COLOR = "\033[45m";
                     }
                 }
@@ -1047,32 +1047,6 @@ public class State {
     }
 
     // check if two states are the same
-    // boolean sameState(State first, State second) {
-    //     for (int i = 0; i < first.levelBoard.size(); i++) {
-    //         for (int j = 0; j < first.levelBoard.get(i).size(); j++) {
-    //             if (first.levelBoard.get(i).get(j).block != second.levelBoard.get(i).get(j).block)
-    //                 return false;
-    //             if (first.levelBoard.get(i).get(j).cube != second.levelBoard.get(i).get(j).cube)
-    //                 return false;
-    //             if (first.levelBoard.get(i).get(j).goal != second.levelBoard.get(i).get(j).goal)
-    //                 return false;
-    //             if (first.levelBoard.get(i).get(j).out != second.levelBoard.get(i).get(j).out)
-    //                 return false;
-    //             if (first.levelBoard.get(i).get(j).road != second.levelBoard.get(i).get(j).road)
-    //                 return false;
-    //             if (first.levelBoard.get(i).get(j).trap != second.levelBoard.get(i).get(j).trap)
-    //                 return false;
-    //             if (!first.levelBoard.get(i).get(j).symbol.equals(second.levelBoard.get(i).get(j).symbol))
-    //                 return false;
-    //             if (!first.levelBoard.get(i).get(j).cubeColor.equals(second.levelBoard.get(i).get(j).cubeColor))
-    //                 return false;
-    //             if (!first.levelBoard.get(i).get(j).goalColor.equals(second.levelBoard.get(i).get(j).goalColor))
-    //                 return false;
-    //         }
-    //     }
-    //     return true;
-    // }
-
     boolean sameState(State first) {
         for (int i = 0; i < first.levelBoard.size(); i++) {
             for (int j = 0; j < first.levelBoard.get(i).size(); j++) {
